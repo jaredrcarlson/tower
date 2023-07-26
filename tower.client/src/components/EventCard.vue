@@ -1,11 +1,11 @@
 <template>
   <router-link :to="{name: 'EventDetails', params: {eventId: event.id}}">
-    <div class="event-card selectable">
+    <div class="event-card">
       <img class="img-fluid event-img" :src="event.coverImg" alt="Event Photo" :title="event.name">
-      <div class="p-2 bg-tw-secondary">
+      <div class="p-2 text-tw-light bg-tw-secondary">
         <div class="fw-bold">{{ event.name }}</div>
         <div class=""><small>{{ event.location }}</small></div>
-        <div class=""><small>{{ event.startDate.toLocaleDateString() }}</small></div>
+        <div class=""><small>{{ event.day }}</small></div>
         <div v-if="event.isCanceled" class="mt-2 canceled bg-tw-red fw-bold text-dark">Canceled</div>
         <div v-else-if="!event.capacity" class="mt-2 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
         <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>

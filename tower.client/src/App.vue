@@ -73,6 +73,10 @@ main {
   background: linear-gradient(#474c61c4 45%, #2a2d3a88);  
 }
 
+.text-tw-light {
+  color: var(--tw-light)
+}
+
 .text-tw-green {
   color: var(--tw-green);
 }

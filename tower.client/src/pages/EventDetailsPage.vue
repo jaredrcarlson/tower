@@ -67,7 +67,6 @@
               <div class="fw-bold"><small>{{ comment.name }}</small></div>
               <div class=""><small>This was so much fun!</small></div>
             </div>
-            
           </div>
         </div>
       </div>
