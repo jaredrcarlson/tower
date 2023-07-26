@@ -24,16 +24,27 @@ class TowerEventsService {
   async updateTowerEvent(userId, eventData) {
     const towerEvent = await this.getTowerEventById(eventData.id)
     if (userId != towerEvent.creatorId) {
-      throw new UnAuthorized('Insufficient permissions to modify this resource.')
+      throw new UnAuthorized('Insufficient permissions for this request.')
     }
-    const editableKeys = ['name', 'description']
-    editableKeys.forEach(key => {
-      if (eventData[key] && eventData[key] != '') {
-        towerEvent[key] = eventData[key]
-      }
-    })
+    if (towerEvent.isCanceled) {
+      throw new BadRequest('The specified resource cannot be modified.')
+    }
+    if ('name' in eventData && eventData.name != '') {
+      towerEvent.name = eventData.name
+    }
+    if ('description' in eventData && eventData.description != '') {
+      towerEvent.description = eventData.description
+    }
+    towerEvent.save()
+    return towerEvent
+  }
 
-
+  async cancelTowerEvent(userId, eventId) {
+    const towerEvent = await this.getTowerEventById(eventId)
+    if (userId != towerEvent.creatorId) {
+      throw new UnAuthorized('Insufficient permissions for this request.')
+    }
+    towerEvent.isCanceled = true
     towerEvent.save()
     return towerEvent
   }
