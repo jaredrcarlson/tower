@@ -1,5 +1,5 @@
 <template>
-  <span class="navbar-text">
+  <!-- <span class="navbar-text">
     <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
       v-if="!user.isAuthenticated">
       Login
@@ -26,7 +26,39 @@
         </div>
       </div>
     </div>
-  </span>
+  </span> -->
+  <div class="fs-6">
+    <div v-if="!user.isAuthenticated" class="d-flex flex-column align-items-center">
+      <div class="mt-3">
+        <button class="btn btn-sm selectable btn-new" @click="login">Login</button>
+      </div>
+      <router-link :to="{ name: 'Home' }">
+        <div class="mt-3 btn btn-sm selectable text-light">home</div>
+      </router-link>
+    </div>
+    <div v-else class="d-flex flex-column align-items-center">
+      <div class="mt-4 px-2">
+        <img :src="account.picture" alt="account photo" class="img-fluid rounded border border-2 border-secondary" />
+      </div>
+      <router-link :to="{ name: 'Home' }">
+        <div class="mt-3 btn btn-sm selectable text-light">home</div>
+      </router-link>
+      <router-link :to="{ name: 'Account' }">
+        <div class="mt-3 btn btn-sm selectable text-light">Account</div>
+      </router-link>
+      <div class="mt-3">
+        <button class="btn btn-sm selectable btn-new">new event</button>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-sm selectable text-light border border-1 border-light" @click="logout">
+          logout
+        </button>
+      </div>
+
+
+      
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,4 +81,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-new {
+  background-color: #79E7AB;
+}
+
+.btn-new:hover {
+  background-color: #55a077;
+}
+
+
+</style>
