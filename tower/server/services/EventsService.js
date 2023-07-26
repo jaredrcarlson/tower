@@ -1,0 +1,54 @@
+import { dbContext } from "../db/DbContext.js"
+import { BadRequest, UnAuthorized } from "../utils/Errors.js"
+
+class EventsService {
+  async createEvent(data) {
+    const event = await dbContext.Events.create(data)
+    await event.populate('creator ticketCount')
+    return event
+  }
+
+  async getEvents() {
+    const events = await dbContext.Events.find().populate('creator ticketCount')
+    return events
+  }
+
+  async getEventById(eventId) {
+    const event = await dbContext.Events.findById(eventId).populate('creator ticketCount')
+    if (!event) {
+      throw new BadRequest('The specified resource does not exist.')
+    }
+    return event
+  }
+
+  async updateEvent(userId, eventData) {
+    const event = await this.getEventById(eventData.id)
+    if (userId != event.creatorId) {
+      throw new UnAuthorized('Insufficient permissions for this request.')
+    }
+    if (event.isCanceled) {
+      throw new BadRequest('The specified resource cannot be modified.')
+    }
+    if ('name' in eventData && eventData.name != '') {
+      event.name = eventData.name
+    }
+    if ('description' in eventData && eventData.description != '') {
+      event.description = eventData.description
+    }
+    event.save()
+    return event
+  }
+
+  async cancelEvent(userId, eventId) {
+    const event = await this.getEventById(eventId)
+    if (userId != event.creatorId) {
+      throw new UnAuthorized('Insufficient permissions for this request.')
+    }
+    event.isCanceled = true
+    event.save()
+    return event
+  }
+
+}
+
+export const eventsService = new EventsService()

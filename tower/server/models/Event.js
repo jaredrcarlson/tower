@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-export const TowerEventSchema = new Schema({
+export const EventSchema = new Schema({
   creatorId: { type: Schema.Types.ObjectId, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
@@ -12,14 +12,14 @@ export const TowerEventSchema = new Schema({
   type: { type: String, enum: ['concert', 'convention', 'sport', 'digital'], required: true }
 }, { timestamps: true, toJSON: { virtuals: true } })
 
-TowerEventSchema.virtual('creator', {
+EventSchema.virtual('creator', {
   localField: 'creatorId',
   foreignField: '_id',
   justOne: true,
   ref: 'Account'
 })
 
-TowerEventSchema.virtual('ticketCount', {
+EventSchema.virtual('ticketCount', {
   localField: '_id',
   foreignField: 'eventId',
   count: true,
