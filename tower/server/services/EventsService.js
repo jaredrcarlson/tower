@@ -16,18 +16,18 @@ class EventsService {
   async getEventById(eventId) {
     const event = await dbContext.Events.findById(eventId).populate('creator ticketCount')
     if (!event) {
-      throw new BadRequest('The specified resource does not exist.')
+      throw new BadRequest('The requested resource does not exist.')
     }
     return event
   }
 
-  async updateEvent(userId, eventData) {
+  async updateEvent(accountId, eventData) {
     const event = await this.getEventById(eventData.id)
-    if (userId != event.creatorId) {
+    if (accountId != event.creatorId) {
       throw new UnAuthorized('Insufficient permissions for this request.')
     }
     if (event.isCanceled) {
-      throw new BadRequest('The specified resource cannot be modified.')
+      throw new BadRequest('The requested resource cannot be modified.')
     }
     if ('name' in eventData && eventData.name != '') {
       event.name = eventData.name
@@ -39,9 +39,9 @@ class EventsService {
     return event
   }
 
-  async cancelEvent(userId, eventId) {
+  async cancelEvent(accountId, eventId) {
     const event = await this.getEventById(eventId)
-    if (userId != event.creatorId) {
+    if (accountId != event.creatorId) {
       throw new UnAuthorized('Insufficient permissions for this request.')
     }
     event.isCanceled = true

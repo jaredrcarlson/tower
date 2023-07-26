@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js"
+import { BadRequest, UnAuthorized } from "../utils/Errors.js"
 
 class TicketsService {
   async createTicket(ticketData) {
@@ -9,9 +9,9 @@ class TicketsService {
   }
 
   async getTicketById(ticketId) {
-    const ticket = await dbContext.Tickets.findById(ticketId)
+    const ticket = await dbContext.Tickets.findById(ticketId).populate('profile event')
     if (!ticket) {
-      throw new BadRequest('The specified resource does not exist.')
+      throw new BadRequest('The requested resource does not exist.')
     }
     return ticket
   }
@@ -26,8 +26,11 @@ class TicketsService {
     return tickets
   }
 
-  async deleteTicket(ticketId) {
+  async deleteTicket(accountId, ticketId) {
     const ticket = await this.getTicketById(ticketId)
+    if (accountId != ticket.accountId) {
+      throw new UnAuthorized('Insufficient permissions for this request.')
+    }
     ticket.remove()
     return `Ticket with id: ${ticketId} was deleted successfully.`
   }
