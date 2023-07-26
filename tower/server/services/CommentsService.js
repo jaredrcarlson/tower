@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
-import { BadRequest, UnAuthorized } from "../utils/Errors.js";
+import { BadRequest, Forbidden } from "../utils/Errors.js";
 
 class CommentsService {
   async createComment(commentData) {
@@ -24,7 +24,7 @@ class CommentsService {
   async deleteComment(accountId, commentId) {
     const comment = await this.getCommentById(commentId)
     if (accountId != comment.creatorId) {
-      throw new UnAuthorized('Insufficient permissions for this request.')
+      throw new Forbidden('Insufficient permissions for this request.')
     }
     comment.remove()
     return `Comment with id: ${commentId} was deleted successfully.`

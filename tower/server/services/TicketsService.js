@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest, UnAuthorized } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class TicketsService {
   async createTicket(ticketData) {
@@ -29,7 +29,7 @@ class TicketsService {
   async deleteTicket(accountId, ticketId) {
     const ticket = await this.getTicketById(ticketId)
     if (accountId != ticket.accountId) {
-      throw new UnAuthorized('Insufficient permissions for this request.')
+      throw new Forbidden('Insufficient permissions for this request.')
     }
     ticket.remove()
     return `Ticket with id: ${ticketId} was deleted successfully.`

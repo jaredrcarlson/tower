@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest, UnAuthorized } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class EventsService {
   async createEvent(data) {
@@ -24,7 +24,7 @@ class EventsService {
   async updateEvent(accountId, eventData) {
     const event = await this.getEventById(eventData.id)
     if (accountId != event.creatorId) {
-      throw new UnAuthorized('Insufficient permissions for this request.')
+      throw new Forbidden('Insufficient permissions for this request.')
     }
     if (event.isCanceled) {
       throw new BadRequest('The requested resource cannot be modified.')
@@ -42,7 +42,7 @@ class EventsService {
   async cancelEvent(accountId, eventId) {
     const event = await this.getEventById(eventId)
     if (accountId != event.creatorId) {
-      throw new UnAuthorized('Insufficient permissions for this request.')
+      throw new Forbidden('Insufficient permissions for this request.')
     }
     event.isCanceled = true
     event.save()
