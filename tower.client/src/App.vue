@@ -43,10 +43,16 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
-// :root{
-//   --main-height: calc(100vh - 32px - 64px);
-// }
-
+:root {
+  //--main-height: calc(100vh - 32px - 64px);
+  --tw-dark: #2A2D3A;
+  --tw-secondary: #474c61;
+  --tw-light: #CCF3FD;
+  --tw-light-blue: #56C7FB;
+  --tw-green: #79E7AB;
+  --tw-red: #FF5977;
+  --tw-yellow: #FFD464;
+}
 
 // footer {
 //   display: grid;
@@ -55,7 +61,7 @@ export default {
 // }
 
 .full-page {
-  height: 100vh;
+  //height: 100vh;
   background: linear-gradient(#2A2D3A, #474c617a);
 }
 
@@ -65,5 +71,33 @@ export default {
 
 .nav-col {
   background: linear-gradient(#474c61c4 45%, #2a2d3a88);  
+}
+
+.text-tw-green {
+  color: var(--tw-green);
+}
+
+.text-tw-secondary {
+  color: var(--tw-secondary);
+}
+
+.text-tw-light-blue {
+  color: var(--tw-light-blue);
+}
+
+.bg-tw-red {
+  background-color: var(--tw-red);
+}
+
+.bg-tw-green {
+  background-color: var(--tw-green);
+}
+
+.bg-tw-yellow {
+  background-color: var(--tw-yellow);
+}
+
+.bg-tw-secondary {
+  background-color: var(--tw-secondary);
 }
 </style>

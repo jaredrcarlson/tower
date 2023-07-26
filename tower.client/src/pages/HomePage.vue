@@ -18,8 +18,8 @@
   <div class="row mt-3">
     <div class="col-12">
       <div class="category d-flex justify-content-around">
-          <div v-for="category in categories" :key="category" @click="selectCategory(category)"
-          class="py-2 text-center btn-category" v-bind:class="{'text-category-select': category == selected}">
+          <div v-for="category in eventTypes" :key="category" @click="filterByCategory(category)"
+          class="py-2 text-center btn-category" v-bind:class="{'text-category-select': category == filter}">
             {{ category }}
           </div>
       </div>
@@ -34,27 +34,49 @@
       </div>
     </div>
   </div> -->
+  <div class="row mt-3">
+    <div v-for="event in events" :key="event.id" class="col-3 mb-3">
+      <EventCard :event="event" />
+    </div>
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { AppState } from '../AppState.js';
+import { eventsService } from '../services/EventsService.js';
+import EventCard from '../components/EventCard.vue';
 
-  const selected = ref('All')
-  function selectCategory(category) {
-    selected.value = category
+  const filter = ref('All')
+  
+  function filterByCategory(category) {
+    filter.value = category
   }
+
+  async function getEvents() {
+    await eventsService.getEvents()
+  }
+
   export default {
-  setup() {
-    return {
-      categories: ['All', 'Concert', 'Convention', 'Sport', 'Digital'],
-      selected,
-      selectCategory
-    }
-  }
+    setup() {
+      onMounted(async() => {
+        await getEvents()
+      })
+
+      return {
+        events: computed(() => AppState.events),
+        eventTypes: ['All', 'Concert', 'Convention', 'Sport', 'Digital'],
+        filter,
+        filterByCategory
+      }
+    },
+    components: { EventCard }
 }
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/variables.scss";
+
 .home {
   display: grid;
   height: 80vh;
@@ -77,13 +99,14 @@ import { ref } from 'vue';
 
 .hero {
   border-radius: 0.2rem;
-  border: 1px solid #56C7FB;
+  border: 1px solid var(--tw-light-blue);
   width: 88vw;
   height: 20vh;
 }
 
 .category {
-  background-color: #474c61;
+  border-radius: 0.2rem;
+  background-color: var(--tw-secondary);
 }
 
 .btn-category:hover {
@@ -91,15 +114,18 @@ import { ref } from 'vue';
 }
 
 .text-category-select {
-  color: #79E7AB;
+  color: var(--tw-green);
 }
+
 .category-select {
   height: 5px;
-  color: #2A2D3A;
-  background-color: #79E7AB;
+  color: var(--tw-dark);
+  background-color: var(--tw-green);
   width: 15vw;
 }
+
 .category-unselect {
-  color: #2A2D3A;
+  color: var(--tw-dark);
 }
+
 </style>
