@@ -8,6 +8,6 @@ export const AppState = reactive({
   /** @type {import('./models/TEvent.js').TEvent[]} */
   events: [],
   /** @type {import('./models/TEvent.js').TEvent | null} */
-  selectedEvent: null,
+  activeEvent: null,
 
 })

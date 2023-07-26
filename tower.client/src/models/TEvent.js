@@ -10,6 +10,10 @@ export class TEvent {
     this.location = data.location
     this.capacity = data.capacity
     this.startDate = new Date(data.startDate)
+    this.fullDateString = this.startDate.toLocaleString()
+    this.day = this.fullDateString.split(', ')[0]
+    this.time = this.fullDateString.split(', ')[1].slice(0, -6)
+      + this.fullDateString.split(', ')[1].slice(-3)
     this.isCanceled = data.isCanceled
     this.type = data.type
   }

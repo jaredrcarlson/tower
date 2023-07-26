@@ -2,7 +2,7 @@
   <header>
   </header>
   <main class="container-fluid">
-    <div class="row bg-dark full-page">
+    <div class="row bg-dark">
       <div class="col-10">
         <div class="row">
           <div class="col-12">
@@ -60,8 +60,8 @@ export default {
 //   height: 32px;
 // }
 
-.full-page {
-  //height: 100vh;
+main {
+  height: 100vh;
   background: linear-gradient(#2A2D3A, #474c617a);
 }
 
@@ -83,6 +83,10 @@ export default {
 
 .text-tw-light-blue {
   color: var(--tw-light-blue);
+}
+
+.bg-tw-light {
+  background-color: var(--tw-light);
 }
 
 .bg-tw-red {
