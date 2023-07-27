@@ -20,10 +20,10 @@
             <div v-else-if="!event.capacity" class="px-5 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
             <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
             <div>
-              <button v-if="showAttendButton" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend">
+              <button v-if="showButtons.attend" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend()">
                   Attend
               </button>
-              <button v-if="isMyEvent" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel">
+              <button v-if="showButtons.cancel" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel()">
                   Cancel
               </button>
             </div>
@@ -84,7 +84,7 @@ import { useRoute } from 'vue-router';
 import { eventsService } from '../services/EventsService.js';
 import { ticketsService } from '../services/TicketsService.js';
 import { commentsService } from '../services/CommentsService.js';
-import { computed, onBeforeMount, onMounted } from 'vue';
+import { computed, onBeforeMount, onMounted, onUpdated, ref, watchEffect } from 'vue';
 import { AppState } from "../AppState.js";
 import Pop from '../utils/Pop.js';
 
@@ -92,11 +92,15 @@ import Pop from '../utils/Pop.js';
 export default {
   setup(){
     const route = useRoute()
+    const showButtons = ref({
+      attend: false,
+      cancel: false
+    })
     async function setActiveEvent() {
       await eventsService.setActiveEvent(route.params.eventId)
     }
 
-    async function getActiveEventAttendees() {
+    async function getActiveEventTickets() {
       try {
         await ticketsService.getTicketsByEventId(route.params.eventId)
       } catch (error) {
@@ -116,6 +120,8 @@ export default {
       try {
         const ticketData = { eventId: route.params.eventId }
         await ticketsService.createTicket(ticketData)
+        await getActiveEventTickets()
+        updateAttendButton()
         Pop.toast('Created Ticket Successfully', 'success')
       } catch (error) {
         Pop.error(error.message)
@@ -129,43 +135,58 @@ export default {
           Pop.toast('Event remains active')
           return
         }
-        
+        await eventsService.cancelEvent(route.params.eventId)
+        updateCancelButton()
+        Pop.toast('Event Cancelled Successfully', 'success')
       } catch (error) {
         Pop.error(error.message)
       }
     }
 
+    function updateAttendButton() {
+      const event = AppState.activeEvent
+      const haveTicket = AppState.myTickets.find(ticket => ticket.eventId == event.id)
+      showButtons.value.attend = event.isCanceled || !event.capacity || haveTicket ? false : true
+    }
+
+    function updateCancelButton() {
+      const event = AppState.activeEvent
+      const isMyEvent = AppState.account.id == event.creatorId     
+      showButtons.value.cancel = isMyEvent && !event.isCanceled
+    }
+
     onBeforeMount(async() => {
       await setActiveEvent()
+      await getActiveEventTickets(AppState.activeEventTickets)
+      await getActiveEventComments(AppState.activeEventComments)
     })
-
+    
     onMounted(async() => {
-      await getActiveEventAttendees()
-      await getActiveEventComments()
+      // await ticketsService.getMyTickets()
+    })
+    
+    onUpdated(async() => {
+      // await getActiveEventTickets()
+      // await getActiveEventComments()
     })
 
-    // onBeforeMount(async() => {
-    //   await setActiveEvent()
-    //   await getActiveEventAttendees()
-    //   await getActiveEventComments()
-    // })
+    watchEffect(async() => {
+      if(AppState.account.id) {
+        await ticketsService.getMyTickets()
+        updateAttendButton()
+        updateCancelButton()
+      }
+      // await getActiveEventComments(AppState.activeEventComments)
+    })
 
     return {
       account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
       myEvents: computed(() => AppState.myEvents),
-      myTickets: computed(() => AppState.myTickets),
+      myTickets: ref(AppState.myTickets),
       eventTickets: computed(() => AppState.activeEventTickets),
       eventComments: computed(() => AppState.activeEventComments),
-      showAttendButton: () => {
-        const event = AppState.activeEvent
-        const haveTicket = AppState.myTickets.find(ticket => ticket.eventId == event.id)
-        return event.isCanceled || !event.capacity || haveTicket ? false : true
-      },
-      isMyEvent: () => {
-        console.log(AppState.account.id, AppState.activeEvent.creatorId)
-        return AppState.account.id == AppState.activeEvent.creatorId
-      },
+      showButtons,
       attend,
       cancel,
     }

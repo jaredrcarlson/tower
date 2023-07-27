@@ -59,8 +59,6 @@ import { ticketsService } from '../services/TicketsService.js';
     await eventsService.getEvents()
   }
 
-  
-
   export default {
     setup() {     
       onMounted(async() => {
@@ -68,7 +66,7 @@ import { ticketsService } from '../services/TicketsService.js';
       })
 
       onUnmounted(async() => {
-        await ticketsService.getMyTickets()
+        // await ticketsService.getMyTickets()
       })
       
       return {
