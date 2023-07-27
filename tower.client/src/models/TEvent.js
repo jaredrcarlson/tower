@@ -16,5 +16,7 @@ export class TEvent {
       + this.fullDateString.split(', ')[1].slice(-3)
     this.isCanceled = data.isCanceled
     this.type = data.type
+    this.creator = data.creator
+    this.ticketCount = data.ticketCount
   }
 }

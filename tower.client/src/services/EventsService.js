@@ -6,13 +6,12 @@ class EventsService {
   async createEvent(eventData) {
     const res = await api.post('api/events', eventData)
     const newEvent = new TEvent(res.data)
-    AppState.events.unshift(newEvent)
+    AppState.events.push(newEvent)
     return newEvent
   }
 
   async getEvents() {
     const res = await api.get('api/events')
-    // console.log('[GOT EVENTS]', res.data)
     AppState.events = res.data.map(data => new TEvent(data))
     this.filterByCategory('All')
   }

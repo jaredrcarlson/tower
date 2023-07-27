@@ -9,7 +9,8 @@ class TicketsService {
   }
 
   async getTicketById(ticketId) {
-    const ticket = await dbContext.Tickets.findById(ticketId).populate('profile event')
+    const ticket = await dbContext.Tickets.findById(ticketId)
+    await ticket.populate('profile event')
     if (!ticket) {
       throw new BadRequest('The requested resource does not exist.')
     }

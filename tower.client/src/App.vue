@@ -1,13 +1,15 @@
 <template>
   <header>
   </header>
-  <main class="container-fluid">
-    <div class="row bg-dark">
+  <main class="container-fluid bg-dark">
+    <div class="row">
       <div class="col-10">
         <div class="row">
           <div class="col-12">
             <div class="my-3">
-              <img src="./assets/img/Logo.png" class="logo img-fluid">
+              <router-link :to="{ name: 'Home' }">
+                <img src="./assets/img/Logo.png" class="logo img-fluid">
+              </router-link>
             </div>
           </div>
         </div>
@@ -28,6 +30,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          
           <h1 class="modal-title fs-5" id="createEventModalLabel">Create New Event</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -91,6 +94,7 @@ import NavBar from './components/Navbar.vue';
 import { eventsService } from './services/EventsService.js';
 import { Modal } from 'bootstrap';
 import { useRouter } from 'vue-router';
+import Pop from './utils/Pop.js';
 
 export default {
   setup() {
@@ -98,9 +102,15 @@ export default {
     const formData = ref({})
 
     async function createEvent() {
-      const event = await eventsService.createEvent(formData.value)
-      Modal.getOrCreateInstance('#createEventModal').hide()
-      router.push({ name: 'EventDetails', params: { eventId: event.id}})
+      try {
+        const event = await eventsService.createEvent(formData.value)
+        formData.value = {}
+        Pop.toast('Created Event Successfully', 'success')
+        Modal.getOrCreateInstance('#createEventModal').hide()
+        router.push({ name: 'EventDetails', params: { eventId: event.id}})
+      } catch (error) {
+        Pop.error(error.message)
+      }
     }
 
     return {
@@ -134,7 +144,7 @@ export default {
 // }
 
 main {
-  height: 100vh;
+  // height: 100vh;
   background: linear-gradient(#2A2D3A, #474c617a);
 }
 
@@ -143,6 +153,7 @@ main {
 }
 
 .nav-col {
+  // height: 100vh;
   background: linear-gradient(#474c61c4 45%, #2a2d3a88);  
 }
 

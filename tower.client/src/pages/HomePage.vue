@@ -42,10 +42,11 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import { eventsService } from '../services/EventsService.js';
 import EventCard from '../components/EventCard.vue';
+import { ticketsService } from '../services/TicketsService.js';
 
   const filter = ref('All')
   
@@ -58,12 +59,18 @@ import EventCard from '../components/EventCard.vue';
     await eventsService.getEvents()
   }
 
+  
+
   export default {
-    setup() {
+    setup() {     
       onMounted(async() => {
         await getEvents()
       })
 
+      onUnmounted(async() => {
+        await ticketsService.getMyTickets()
+      })
+      
       return {
         events: computed(() => AppState.events),
         filteredEvents: computed(() => AppState.filteredEvents),

@@ -1,7 +1,6 @@
 <template>
-  <div v-if="event" class="">
+  <div v-if="event">
     <div class="row px-3 justify-content-around">
-
       <div class="col-5 py-3 bg-tw-secondary d-flex align-items-center">
         <img class="img-fluid event-img" :src="event.coverImg" alt="Event Photo" :title="event.name">
       </div>  
@@ -11,26 +10,23 @@
             <div class="fw-bold">{{ event.name }}</div>
             <div class=""><small>{{ event.day }}</small></div>
           </div>
-          
           <div class="d-flex align-items-center justify-content-between">
             <div class=""><small>{{ event.location }}</small></div>
             <div class=""><small>{{ event.time }}</small></div>
           </div>
           <div class="mt-3"><small>{{ event.description }}</small></div>
-
           <div class="mt-4 d-flex align-items-center justify-content-between">
             <div v-if="event.isCanceled" class="px-5 canceled bg-tw-red fw-bold text-dark">Canceled</div>
             <div v-else-if="!event.capacity" class="px-5 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
             <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
             <div>
-              <button v-if="!event.isCanceled && event.capacity" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend">
+              <button v-if="showAttendButton" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend">
                   Attend
               </button>
-              <button v-if="account.id == event.creatorId" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel">
+              <button v-if="isMyEvent" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel">
                   Cancel
               </button>
             </div>
-
           </div>
         </div>
       </div>
@@ -44,7 +40,7 @@
 
     <div class="row px-3 mt-1">
       <div class="col-12 py-1 bg-tw-secondary">
-        <img v-for="x in 30" :key="x" class="attendee-img" :src="attendee.picture" :title="attendee.name">
+        <img v-for="ticket in eventTickets" :key="ticket.id" class="attendee-img" :src="ticket.profile.picture" :title="ticket.profile.name">
       </div>
     </div>
 
@@ -67,10 +63,10 @@
         </div>
 
         <div class="row mt-2">
-          <div v-for="x in 3" :key="x" class="col-12 mb-2 d-flex">
-            <img class="me-2 comment-img" :src="comment.picture" :title="comment.name">
+          <div v-for="comment in eventComments" :key="comment.id" class="col-12 mb-2 d-flex">
+            <img class="me-2 comment-img" :src="comment.creator.picture" :title="comment.creator.name">
             <div class="text-box bg-light rounded px-3">
-              <div class="fw-bold"><small>{{ comment.name }}</small></div>
+              <div class="fw-bold"><small>{{ comment.creator.name }}</small></div>
               <div class=""><small>This was so much fun!</small></div>
             </div>
           </div>
@@ -86,8 +82,11 @@
 <script>
 import { useRoute } from 'vue-router';
 import { eventsService } from '../services/EventsService.js';
-import { computed, onBeforeMount } from 'vue';
+import { ticketsService } from '../services/TicketsService.js';
+import { commentsService } from '../services/CommentsService.js';
+import { computed, onBeforeMount, onMounted } from 'vue';
 import { AppState } from "../AppState.js";
+import Pop from '../utils/Pop.js';
 
 
 export default {
@@ -97,15 +96,78 @@ export default {
       await eventsService.setActiveEvent(route.params.eventId)
     }
 
+    async function getActiveEventAttendees() {
+      try {
+        await ticketsService.getTicketsByEventId(route.params.eventId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+    
+    async function getActiveEventComments() {
+      try {
+        await commentsService.getCommentsByEventId(route.params.eventId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function attend() {
+      try {
+        const ticketData = { eventId: route.params.eventId }
+        await ticketsService.createTicket(ticketData)
+        Pop.toast('Created Ticket Successfully', 'success')
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function cancel() {
+      try {
+        const confirmed = await Pop.confirm()
+        if(!confirmed) {
+          Pop.toast('Event remains active')
+          return
+        }
+        
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
     onBeforeMount(async() => {
       await setActiveEvent()
     })
 
+    onMounted(async() => {
+      await getActiveEventAttendees()
+      await getActiveEventComments()
+    })
+
+    // onBeforeMount(async() => {
+    //   await setActiveEvent()
+    //   await getActiveEventAttendees()
+    //   await getActiveEventComments()
+    // })
+
     return {
       account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
-      attendee: computed(() => AppState.user),
-      comment: computed(() => AppState.user)
+      myEvents: computed(() => AppState.myEvents),
+      myTickets: computed(() => AppState.myTickets),
+      eventTickets: computed(() => AppState.activeEventTickets),
+      eventComments: computed(() => AppState.activeEventComments),
+      showAttendButton: () => {
+        const event = AppState.activeEvent
+        const haveTicket = AppState.myTickets.find(ticket => ticket.eventId == event.id)
+        return event.isCanceled || !event.capacity || haveTicket ? false : true
+      },
+      isMyEvent: () => {
+        console.log(AppState.account.id, AppState.activeEvent.creatorId)
+        return AppState.account.id == AppState.activeEvent.creatorId
+      },
+      attend,
+      cancel,
     }
   }
 }
