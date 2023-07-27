@@ -13,15 +13,6 @@
   <div v-for="ticket in myTickets" :key="ticket.id" class="row mb-3">
     <TicketCard :ticket="ticket" />
   </div>
-  
-    <!-- <div v-for="x in 3" :key="x" class="col-12 mb-2 d-flex">
-      <img class="me-2 comment-img" :src="comment.picture" :title="comment.name">
-      <div class="text-box bg-light rounded px-3">
-        <div class="fw-bold"><small>{{ comment.name }}</small></div>
-        <div class=""><small>This was so much fun!</small></div>
-      </div>
-    </div> -->
-
 </template>
 
 <script>
