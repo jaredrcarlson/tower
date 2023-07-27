@@ -55,11 +55,9 @@
       <div class="col-2"></div>
       <div class="col-8 bg-tw-secondary">
         <div class="my-1 text-end text-tw-green"><small>Join the conversation</small></div>
-        <textarea class="text-box" name="body" rows="4" placeholder="share your thoughts..."></textarea>
+        <textarea v-model="commentData.body" class="text-box" name="body" rows="4" placeholder="share your thoughts..."></textarea>
         <div class="d-flex justify-content-end">
-          <button class="my-1 btn btn-sm btn-green" @click="postComment">
-            post comment
-          </button>
+          <button class="my-1 btn btn-sm btn-green" @click="createComment()">post comment</button>
         </div>
 
         <div class="row mt-2">
@@ -67,7 +65,7 @@
             <img class="me-2 comment-img" :src="comment.creator.picture" :title="comment.creator.name">
             <div class="text-box bg-light rounded px-3">
               <div class="fw-bold"><small>{{ comment.creator.name }}</small></div>
-              <div class=""><small>This was so much fun!</small></div>
+              <div class=""><small>{{ comment.body }}</small></div>
             </div>
           </div>
         </div>
@@ -92,10 +90,17 @@ import Pop from '../utils/Pop.js';
 export default {
   setup(){
     const route = useRoute()
+
     const showButtons = ref({
       attend: false,
       cancel: false
     })
+
+    const commentData = ref({
+      eventId: route.params.eventId,
+      body: ''
+    })
+
     async function setActiveEvent() {
       await eventsService.setActiveEvent(route.params.eventId)
     }
@@ -154,10 +159,19 @@ export default {
       showButtons.value.cancel = isMyEvent && !event.isCanceled
     }
 
+    async function createComment() {
+      if(commentData.value.body == '') {
+        Pop.error('No empty comments allowed')
+        return
+      }
+      await commentsService.createComment(commentData.value)
+      commentData.value.body = ''
+    }
+
     onBeforeMount(async() => {
       await setActiveEvent()
-      await getActiveEventTickets(AppState.activeEventTickets)
-      await getActiveEventComments(AppState.activeEventComments)
+      await getActiveEventTickets()
+      await getActiveEventComments()
     })
     
     onMounted(async() => {
@@ -186,8 +200,10 @@ export default {
       eventTickets: computed(() => AppState.activeEventTickets),
       eventComments: computed(() => AppState.activeEventComments),
       showButtons,
+      commentData,
       attend,
       cancel,
+      createComment
     }
   }
 }
