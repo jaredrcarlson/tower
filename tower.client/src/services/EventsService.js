@@ -1,6 +1,7 @@
 import { AppState } from "../AppState.js"
 import { TEvent } from "../models/TEvent.js"
 import { api } from "./AxiosService.js"
+import { ticketsService } from "./TicketsService.js"
 
 class EventsService {
   async createEvent(eventData) {

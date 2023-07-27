@@ -77,7 +77,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-green">Submit</button>
           </div>
         </form>
       </div>
@@ -133,8 +133,11 @@ export default {
   --tw-light: #CCF3FD;
   --tw-light-blue: #56C7FB;
   --tw-green: #79E7AB;
+  --tw-green-hover:  #79e7ab88;
   --tw-red: #FF5977;
+  --tw-red-hover: #ff597789;
   --tw-yellow: #FFD464;
+  --tw-yellow-hover: #ffd36488;
 }
 
 // footer {
@@ -191,5 +194,35 @@ main {
 
 .bg-tw-secondary {
   background-color: var(--tw-secondary);
+}
+
+.btn-green {
+  cursor: pointer;
+  font-weight: bold;
+  background-color: var(--tw-green);
+}
+
+.btn-green:hover {
+  background-color: var(--tw-green-hover);
+}
+
+.btn-yellow {
+  cursor: pointer;
+  font-weight: bold;
+  background-color: var(--tw-yellow);
+}
+
+.btn-yellow:hover {
+  background-color: var(--tw-yellow-hover);
+}
+
+.btn-red {
+  cursor: pointer;
+  font-weight: bold;
+  background-color: var(--tw-red);
+}
+
+.btn-red:hover {
+  background-color: var(--tw-red-hover);
 }
 </style>

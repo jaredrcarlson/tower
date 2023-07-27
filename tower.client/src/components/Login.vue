@@ -30,7 +30,7 @@
   <div class="fs-6">
     <div v-if="!user.isAuthenticated" class="d-flex flex-column align-items-center">
       <div class="mt-3">
-        <button class="btn btn-sm selectable btn-new" @click="login">Login</button>
+        <button class="btn btn-sm btn-green" @click="login">Login</button>
       </div>
       <router-link :to="{ name: 'Home' }">
         <div class="mt-3 btn btn-sm selectable text-light">home</div>
@@ -47,12 +47,10 @@
         <div class="mt-3 btn btn-sm selectable text-light">Account</div>
       </router-link>
       <div class="mt-3">
-        <button class="btn btn-sm selectable btn-new" data-bs-toggle="modal" data-bs-target="#createEventModal">new event</button>
+        <button class="btn btn-sm btn-green" data-bs-toggle="modal" data-bs-target="#createEventModal">new event</button>
       </div>
       <div class="mt-4">
-        <button class="btn btn-sm selectable text-light border border-1 border-light" @click="logout">
-          logout
-        </button>
+        <button class="btn btn-sm selectable text-light border border-1 border-light" @click="logout">logout</button>
       </div>      
     </div>
   </div>

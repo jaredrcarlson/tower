@@ -15,6 +15,10 @@ class TicketsService {
     AppState.myTickets = res.data.map(data => new Ticket(data))
   }
 
+  get myTickets() {
+    return AppState.myTickets
+  }
+
   async getTicketsByEventId(eventId) {
     const res = await api.get(`api/events/${eventId}/tickets`)
     AppState.activeEventTickets = res.data.map(data => new Ticket(data))
@@ -22,6 +26,8 @@ class TicketsService {
 
   async deleteTicket(ticketId) {
     await api.delete(`api/tickets/${ticketId}`)
+    const ticketIndex = AppState.myTickets.findIndex(ticket => ticket.id == ticketId)
+    AppState.myTickets.splice(ticketIndex, 1)
   }
 }
 

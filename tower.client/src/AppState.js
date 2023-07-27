@@ -24,8 +24,8 @@ export const AppState = reactive({
   /** @type {import('./models/Comment.js').Comment[]} */
   activeEventComments: [],
 
-  /** @type {import('./models/TEvent.js').TEvent[]} */
-  myEvents: [],
+  // /** @type {import('./models/TEvent.js').TEvent[]} */
+  // myEvents: [],
 
   /** @type {import('./models/Ticket.js').Ticket[]} */
   myTickets: []

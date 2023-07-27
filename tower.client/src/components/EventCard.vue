@@ -6,7 +6,7 @@
         <div class="fw-bold">{{ event.name }}</div>
         <div class=""><small>{{ event.location }}</small></div>
         <div class=""><small>{{ event.day }}</small></div>
-        <div v-if="event.isCanceled" class="mt-2 canceled bg-tw-red fw-bold text-dark">Canceled</div>
+        <div v-if="event.isCanceled" class="mt-2 canceled bg-tw-yellow fw-bold text-dark">Canceled</div>
         <div v-else-if="!event.capacity" class="mt-2 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
         <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
       </div>

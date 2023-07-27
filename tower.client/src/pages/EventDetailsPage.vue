@@ -2,7 +2,7 @@
   <div v-if="event">
     <div class="row px-3 justify-content-around">
       <div class="col-5 py-3 bg-tw-secondary d-flex align-items-center">
-        <img class="img-fluid event-img" :src="event.coverImg" alt="Event Photo" :title="event.name">
+        <img class="img-fluid event-img" :src="event.coverImg" alt="Event Photo" :title="`${event.name} by ${event.creator.name}`">
       </div>  
       <div class="col-7 py-3 bg-tw-secondary">
         <div class="d-flex flex-column justify-content-center">
@@ -16,14 +16,14 @@
           </div>
           <div class="mt-3"><small>{{ event.description }}</small></div>
           <div class="mt-4 d-flex align-items-center justify-content-between">
-            <div v-if="event.isCanceled" class="px-5 canceled bg-tw-red fw-bold text-dark">Canceled</div>
+            <div v-if="event.isCanceled" class="px-5 canceled bg-tw-yellow fw-bold text-dark">Canceled</div>
             <div v-else-if="!event.capacity" class="px-5 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
             <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
             <div>
-              <button v-if="showButtons.attend" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend()">
+              <button v-if="showButtons.attend" class="btn btn-sm btn-yellow" @click="attend()">
                   Attend
               </button>
-              <button v-if="showButtons.cancel" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel()">
+              <button v-if="showButtons.cancel" class="ms-2 btn btn-sm btn-red" @click="cancel()">
                   Cancel
               </button>
             </div>
@@ -57,7 +57,7 @@
         <div class="my-1 text-end text-tw-green"><small>Join the conversation</small></div>
         <textarea class="text-box" name="body" rows="4" placeholder="share your thoughts..."></textarea>
         <div class="d-flex justify-content-end">
-          <button class="my-1 btn btn-sm bg-tw-green btn-custom" @click="postComment">
+          <button class="my-1 btn btn-sm btn-green" @click="postComment">
             post comment
           </button>
         </div>
@@ -132,7 +132,6 @@ export default {
       try {
         const confirmed = await Pop.confirm()
         if(!confirmed) {
-          Pop.toast('Event remains active')
           return
         }
         await eventsService.cancelEvent(route.params.eventId)
@@ -182,7 +181,7 @@ export default {
     return {
       account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
-      myEvents: computed(() => AppState.myEvents),
+      // myEvents: computed(() => AppState.myEvents),
       myTickets: ref(AppState.myTickets),
       eventTickets: computed(() => AppState.activeEventTickets),
       eventComments: computed(() => AppState.activeEventComments),
@@ -195,11 +194,9 @@ export default {
 </script>
 
 
+
+
 <style lang="scss" scoped>
-.btn-custom:hover {
-  cursor: pointer;
-  background-color: #746234;
-}
 
 .attendee-img {
   height: 6vh;
