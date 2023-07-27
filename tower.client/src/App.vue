@@ -22,19 +22,92 @@
       </div>
     </div>
   </main>
-   <footer>
-   </footer>
+
+
+  <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="createEventModalLabel">Create New Event</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form @submit.prevent="createEvent">
+          <div class="modal-body">
+                      
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Category</div>
+              <select v-model="formData.type" class="form-select" aria-label="type">
+                <option v-for="type in eventTypes.slice(1)" :key="type" :value="type.toLowerCase()">{{ type }}</option>
+              </select>
+            </div>
+            
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Name</div>
+              <input v-model="formData.name" type="text" class="form-control" aria-describedby="name" required>
+            </div>
+            
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Description</div>
+              <textarea v-model="formData.description" class="form-control" aria-describedby="description" required></textarea>
+            </div>
+              
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Cover Image</div>
+              <input v-model="formData.coverImg" type="url" class="form-control" aria-describedby="coverImg" required />
+            </div>
+            
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Location</div>
+              <input v-model="formData.location" type="text" class="form-control" aria-describedby="location" required>
+            </div>
+            
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Seating Capacity</div>
+              <input v-model="formData.capacity" type="number" class="form-control" aria-describedby="capacity" required>
+            </div>
+
+            <div class="mb-1">
+              <div class="my-0 ps-2 form-text">Date</div>
+              <input v-model="formData.startDate" type="datetime-local" class="form-control" aria-describedby="startDate" required>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <footer>
+  </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { AppState } from './AppState'
 import NavBar from './components/Navbar.vue';
+import { eventsService } from './services/EventsService.js';
+import { Modal } from 'bootstrap';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const router = useRouter()
+    const formData = ref({})
+
+    async function createEvent() {
+      const event = await eventsService.createEvent(formData.value)
+      Modal.getOrCreateInstance('#createEventModal').hide()
+      router.push({ name: 'EventDetails', params: { eventId: event.id}})
+    }
+
     return {
-      appState: computed(() => AppState)
+      appState: computed(() => AppState),
+      eventTypes: computed(() => AppState.eventTypes),
+      formData,
+      createEvent
     }
   },
   components: { NavBar }

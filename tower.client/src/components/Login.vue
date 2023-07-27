@@ -47,16 +47,13 @@
         <div class="mt-3 btn btn-sm selectable text-light">Account</div>
       </router-link>
       <div class="mt-3">
-        <button class="btn btn-sm selectable btn-new">new event</button>
+        <button class="btn btn-sm selectable btn-new" data-bs-toggle="modal" data-bs-target="#createEventModal">new event</button>
       </div>
       <div class="mt-4">
         <button class="btn btn-sm selectable text-light border border-1 border-light" @click="logout">
           logout
         </button>
-      </div>
-
-
-      
+      </div>      
     </div>
   </div>
 </template>

@@ -35,7 +35,7 @@
     </div>
   </div> -->
   <div class="row mt-3">
-    <div v-for="event in events" :key="event.id" class="col-3 mb-3">
+    <div v-for="event in filteredEvents" :key="event.id" class="col-3 mb-3">
       <EventCard :event="event" />
     </div>
   </div>
@@ -51,6 +51,7 @@ import EventCard from '../components/EventCard.vue';
   
   function filterByCategory(category) {
     filter.value = category
+    eventsService.filterByCategory(category)
   }
 
   async function getEvents() {
@@ -65,7 +66,8 @@ import EventCard from '../components/EventCard.vue';
 
       return {
         events: computed(() => AppState.events),
-        eventTypes: ['All', 'Concert', 'Convention', 'Sport', 'Digital'],
+        filteredEvents: computed(() => AppState.filteredEvents),
+        eventTypes: computed(() => AppState.eventTypes),
         filter,
         filterByCategory
       }

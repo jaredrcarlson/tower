@@ -22,9 +22,15 @@
             <div v-if="event.isCanceled" class="px-5 canceled bg-tw-red fw-bold text-dark">Canceled</div>
             <div v-else-if="!event.capacity" class="px-5 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
             <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
-            <button class="btn btn-sm bg-tw-yellow btn-custom" @click="attend">
-                Attend
-            </button>
+            <div>
+              <button v-if="!event.isCanceled && event.capacity" class="btn btn-sm bg-tw-yellow btn-custom" @click="attend">
+                  Attend
+              </button>
+              <button v-if="account.id == event.creatorId" class="ms-2 btn btn-sm bg-tw-red btn-custom" @click="cancel">
+                  Cancel
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -96,6 +102,7 @@ export default {
     })
 
     return {
+      account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
       attendee: computed(() => AppState.user),
       comment: computed(() => AppState.user)

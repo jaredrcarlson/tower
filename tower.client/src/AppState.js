@@ -7,7 +7,13 @@ export const AppState = reactive({
   account: {},
   /** @type {import('./models/TEvent.js').TEvent[]} */
   events: [],
+  eventTypes: ['All', 'Concert', 'Convention', 'Sport', 'Digital'],
+  /** @type {import('./models/TEvent.js').TEvent[]} */
+  filteredEvents: [],
   /** @type {import('./models/TEvent.js').TEvent | null} */
   activeEvent: null,
-
+  /** @type {import('./models/TEvent.js').TEvent[]} */
+  myEvents: [],
+  /** @type {import('./models/Ticket.js').Ticket[]} */
+  myTickets: []
 })
