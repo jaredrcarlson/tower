@@ -28,8 +28,8 @@
 
   <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
+      <div class="modal-content text-tw-light bg-tw-secondary">
+        <div class="modal-header text-tw-dark bg-tw-green">
           
           <h1 class="modal-title fs-5" id="createEventModalLabel">Create New Event</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -37,40 +37,40 @@
         <form @submit.prevent="createEvent">
           <div class="modal-body">
                       
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Category</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Category</div>
               <select v-model="formData.type" class="form-select" aria-label="type">
                 <option v-for="type in eventTypes.slice(1)" :key="type" :value="type.toLowerCase()">{{ type }}</option>
               </select>
             </div>
             
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Name</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Name</div>
               <input v-model="formData.name" type="text" class="form-control" aria-describedby="name" required>
             </div>
             
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Description</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Description</div>
               <textarea v-model="formData.description" class="form-control" aria-describedby="description" required></textarea>
             </div>
               
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Cover Image</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Cover Image</div>
               <input v-model="formData.coverImg" type="url" class="form-control" aria-describedby="coverImg" required />
             </div>
             
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Location</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Location</div>
               <input v-model="formData.location" type="text" class="form-control" aria-describedby="location" required>
             </div>
             
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Seating Capacity</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Seating Capacity</div>
               <input v-model="formData.capacity" type="number" class="form-control" aria-describedby="capacity" required>
             </div>
 
-            <div class="mb-1">
-              <div class="my-0 ps-2 form-text">Date</div>
+            <div class="mb-2">
+              <div class="my-0 ps-2">Date</div>
               <input v-model="formData.startDate" type="datetime-local" class="form-control" aria-describedby="startDate" required>
             </div>
 
@@ -164,6 +164,10 @@ main {
   color: var(--tw-light)
 }
 
+.text-tw-dark {
+  color: var(--tw-dark)
+}
+
 .text-tw-green {
   color: var(--tw-green);
 }
@@ -178,6 +182,10 @@ main {
 
 .bg-tw-light {
   background-color: var(--tw-light);
+}
+
+.bg-tw-dark {
+  background-color: var(--tw-dark);
 }
 
 .bg-tw-red {
@@ -203,6 +211,7 @@ main {
 }
 
 .btn-green:hover {
+  cursor: pointer;
   background-color: var(--tw-green-hover);
 }
 
@@ -213,6 +222,7 @@ main {
 }
 
 .btn-yellow:hover {
+  cursor: pointer;
   background-color: var(--tw-yellow-hover);
 }
 
@@ -223,6 +233,7 @@ main {
 }
 
 .btn-red:hover {
+  cursor: pointer;
   background-color: var(--tw-red-hover);
 }
 </style>
