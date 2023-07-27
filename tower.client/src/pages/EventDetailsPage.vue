@@ -16,9 +16,9 @@
           </div>
           <div class="mt-3"><small>{{ event.description }}</small></div>
           <div class="mt-4 d-flex align-items-center justify-content-between">
-            <div v-if="event.isCanceled" class="px-5 canceled bg-tw-yellow fw-bold text-dark">Canceled</div>
-            <div v-else-if="!event.capacity" class="px-5 canceled bg-tw-red fw-bold text-dark">Sold Out</div>
-            <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity }}</span> spots left</div>
+            <div v-if="event.isCanceled" class="px-5 bg-tw-yellow fw-bold text-dark">Canceled</div>
+            <div v-else-if="event.capacity == eventTickets.length" class="px-5 fw-bold text-dark bg-tw-yellow">Sold Out</div>
+            <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity - eventTickets.length }}</span> ticket{{ event.capacity - eventTickets.length != 1 ? 's' : '' }} available</div>
             <div>
               <button v-if="showButtons.attend" class="btn btn-sm btn-yellow" @click="attend()">
                   Attend
