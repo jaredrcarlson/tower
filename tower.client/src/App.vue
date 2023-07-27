@@ -2,7 +2,7 @@
   <header>
   </header>
   <main class="container-fluid bg-dark">
-    <div class="row">
+    <div class="row mb-5">
       <div class="col-10">
         <div class="row">
           <div class="col-12">
@@ -23,66 +23,70 @@
         <NavBar />
       </div>
     </div>
-  </main>
-
-
-  <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content text-tw-light bg-tw-secondary">
-        <div class="modal-header text-tw-dark bg-tw-green">
-          
-          <h1 class="modal-title fs-5" id="createEventModalLabel">Create New Event</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content text-tw-light bg-tw-secondary">
+              <div class="modal-header text-tw-dark bg-tw-green">
+                
+                <h1 class="modal-title fs-5" id="createEventModalLabel">Create New Event</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form @submit.prevent="createEvent">
+                <div class="modal-body">
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Category</div>
+                    <select v-model="formData.type" class="form-select" aria-label="type">
+                      <option v-for="type in eventTypes.slice(1)" :key="type" :value="type.toLowerCase()">{{ type }}</option>
+                    </select>
+                    </div>
+                    
+                    <div class="mb-2">
+                    <div class="my-0 ps-2">Name</div>
+                    <input v-model="formData.name" type="text" class="form-control" aria-describedby="name" required>
+                  </div>
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Description</div>
+                    <textarea v-model="formData.description" class="form-control" aria-describedby="description" required></textarea>
+                  </div>
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Cover Image</div>
+                    <input v-model="formData.coverImg" type="url" class="form-control" aria-describedby="coverImg" required />
+                  </div>
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Location</div>
+                    <input v-model="formData.location" type="text" class="form-control" aria-describedby="location" required>
+                  </div>
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Seating Capacity</div>
+                    <input v-model="formData.capacity" type="number" class="form-control" aria-describedby="capacity" required>
+                  </div>
+                  
+                  <div class="mb-2">
+                    <div class="my-0 ps-2">Date</div>
+                    <input v-model="formData.startDate" type="datetime-local" class="form-control" aria-describedby="startDate" required>
+                  </div>
+      
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-green">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <form @submit.prevent="createEvent">
-          <div class="modal-body">
-                      
-            <div class="mb-2">
-              <div class="my-0 ps-2">Category</div>
-              <select v-model="formData.type" class="form-select" aria-label="type">
-                <option v-for="type in eventTypes.slice(1)" :key="type" :value="type.toLowerCase()">{{ type }}</option>
-              </select>
-            </div>
-            
-            <div class="mb-2">
-              <div class="my-0 ps-2">Name</div>
-              <input v-model="formData.name" type="text" class="form-control" aria-describedby="name" required>
-            </div>
-            
-            <div class="mb-2">
-              <div class="my-0 ps-2">Description</div>
-              <textarea v-model="formData.description" class="form-control" aria-describedby="description" required></textarea>
-            </div>
-              
-            <div class="mb-2">
-              <div class="my-0 ps-2">Cover Image</div>
-              <input v-model="formData.coverImg" type="url" class="form-control" aria-describedby="coverImg" required />
-            </div>
-            
-            <div class="mb-2">
-              <div class="my-0 ps-2">Location</div>
-              <input v-model="formData.location" type="text" class="form-control" aria-describedby="location" required>
-            </div>
-            
-            <div class="mb-2">
-              <div class="my-0 ps-2">Seating Capacity</div>
-              <input v-model="formData.capacity" type="number" class="form-control" aria-describedby="capacity" required>
-            </div>
 
-            <div class="mb-2">
-              <div class="my-0 ps-2">Date</div>
-              <input v-model="formData.startDate" type="datetime-local" class="form-control" aria-describedby="startDate" required>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-green">Submit</button>
-          </div>
-        </form>
       </div>
     </div>
-  </div>
+  </main>
   <footer>
   </footer>
 </template>
@@ -100,7 +104,7 @@ export default {
   setup() {
     const router = useRouter()
     const formData = ref({})
-
+    
     async function createEvent() {
       try {
         const event = await eventsService.createEvent(formData.value)
@@ -152,7 +156,7 @@ main {
 }
 
 .logo {
-  height: 6vh;
+  height: 4dvh;
 }
 
 .nav-col {

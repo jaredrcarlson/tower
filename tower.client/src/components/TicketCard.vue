@@ -12,7 +12,7 @@
           <div class=""><small>{{ ticket.event.day }}</small></div>
         </div>
         <div class="d-flex justify-content-end align-items-center">
-          <div v-if="ticket.event.isCanceled" class="me-5 p-1 bg-tw-yellow text-dark rounded">event has been canceled</div>
+          <div v-if="ticket.event.isCanceled" class="me-5 p-1 bg-tw-yellow text-dark rounded">canceled</div>
           <button class="btn btn-sm btn-red" @click="deleteTicket()">Delete</button>
         </div>
       </div>

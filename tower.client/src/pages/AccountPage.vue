@@ -2,7 +2,7 @@
 <template>
   <div v-if="myEvents" class="row">
     <div class="fs-4 mb-2 text-tw-green">My Events</div>
-    <div v-for="event in myEvents" :key="event.id" class="col-3 mb-3">
+    <div v-for="event in myEvents" :key="event.id" class="col-12 col-md-3 mb-3">
       <EventCard :event="event" />
     </div>
   </div>

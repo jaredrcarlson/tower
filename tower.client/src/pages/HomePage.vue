@@ -35,7 +35,7 @@
     </div>
   </div> -->
   <div class="row mt-3">
-    <div v-for="event in filteredEvents" :key="event.id" class="col-3 mb-3">
+    <div v-for="event in filteredEvents" :key="event.id" class="col-12 col-md-3 mb-3">
       <EventCard :event="event" />
     </div>
   </div>
@@ -46,7 +46,6 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import { eventsService } from '../services/EventsService.js';
 import EventCard from '../components/EventCard.vue';
-import { ticketsService } from '../services/TicketsService.js';
 
   const filter = ref('All')
   
@@ -107,8 +106,9 @@ import { ticketsService } from '../services/TicketsService.js';
 .hero {
   border-radius: 0.2rem;
   border: 1px solid var(--tw-light-blue);
-  width: 88vw;
-  height: 20vh;
+  width: 88dvw;
+  height: 18dvh;
+  object-fit: cover;
 }
 
 .category {
