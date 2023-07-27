@@ -12,6 +12,12 @@ class CommentsService {
     const res = await api.get(`api/events/${eventId}/comments`)
     AppState.activeEventComments = res.data.map(data => new Comment(data))
   }
+
+  async deleteComment(commentId) {
+    await api.delete(`api/comments/${commentId}`)
+    const commentIndex = AppState.activeEventComments.findIndex(comment => comment.id == commentId)
+    AppState.activeEventComments.splice(commentIndex, 1)
+  }
 }
 
 export const commentsService = new CommentsService()

@@ -61,11 +61,14 @@
         </div>
 
         <div class="row mt-2">
-          <div v-for="comment in eventComments" :key="comment.id" class="col-12 mb-2 d-flex">
+          <div v-for="comment in eventComments" :key="comment.id" class="col-12 mb-2 d-flex align-items-center">
             <img class="me-2 comment-img" :src="comment.creator.picture" :title="comment.creator.name">
-            <div class="text-box bg-light rounded px-3">
+            <div class="text-box bg-light rounded px-3 py-2">
               <div class="fw-bold"><small>{{ comment.creator.name }}</small></div>
               <div class=""><small>{{ comment.body }}</small></div>
+            </div>
+            <div v-if="comment.creatorId == account.id">
+              <button class="ms-2 btn btn-sm btn-red" @click="deleteComment(comment.id)"><i class="mdi mdi-trash-can-outline fs-2"></i></button>
             </div>
           </div>
         </div>
@@ -168,6 +171,14 @@ export default {
       commentData.value.body = ''
     }
 
+    async function deleteComment(commentId) {
+      const confirmed = await Pop.confirm()
+      if(!confirmed) {
+        return
+      }
+      await commentsService.deleteComment(commentId)
+    }
+
     onBeforeMount(async() => {
       await setActiveEvent()
       await getActiveEventTickets()
@@ -203,7 +214,8 @@ export default {
       commentData,
       attend,
       cancel,
-      createComment
+      createComment,
+      deleteComment
     }
   }
 }
