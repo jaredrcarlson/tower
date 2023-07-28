@@ -156,7 +156,7 @@ export default {
     function updateAttendButton() {
       const event = AppState.activeEvent
       const haveTicket = AppState.myTickets.find(ticket => ticket.eventId == event.id)
-      showButtons.value.attend = event.isCanceled || !event.capacity || haveTicket ? false : true
+      showButtons.value.attend = event.isCanceled || event.capacity == event.ticketCount || haveTicket ? false : true
     }
 
     function updateCancelButton() {
