@@ -2,18 +2,17 @@
   <div class="col-2"></div>
   <div class="col-8">
     <div class="row g-0">
-      <div class="col-4">
+      <div class="col-5 col-md-4">
         <img class="img-fluid event-img rounded-start" :src="ticket.event.coverImg" alt="Event Photo" :title="ticket.event.name">
       </div>
-      <div class="col-8 px-3 py-2 bg-tw-secondary d-flex flex-column justify-content-between rounded-end">
+      <div class="col-7 col-md-8 p-2 bg-tw-secondary d-flex flex-column rounded-end">
         <div>
-          <div class="fw-bold">{{ ticket.event.name }}</div>
+          <div class="fw-bold">{{ ticket.event.name }} <span v-if="ticket.event.isCanceled" class="px-2 text-center fw-bold bg-tw-yellow text-dark">Canceled</span></div>
           <div class=""><small>{{ ticket.event.location }}</small></div>
           <div class=""><small>{{ ticket.event.day }}</small></div>
         </div>
-        <div class="d-flex justify-content-end align-items-center">
-          <div v-if="ticket.event.isCanceled" class="me-5 p-1 bg-tw-yellow text-dark rounded">canceled</div>
-          <button class="btn btn-sm btn-red" @click="deleteTicket()">Delete</button>
+        <div class="d-flex justify-content-end">
+          <button class="mt-2 btn btn-sm btn-red" @click="deleteTicket()">Delete</button>
         </div>
       </div>
     </div>
@@ -23,9 +22,7 @@
 
 
 <script>
-import { computed } from 'vue';
 import { Ticket } from '../models/Ticket.js';
-import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { ticketsService } from '../services/TicketsService.js';
 
@@ -65,7 +62,7 @@ export default {
 }
 
 .event-img {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 

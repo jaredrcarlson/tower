@@ -16,14 +16,14 @@
           </div>
           <div class="mt-3"><small>{{ event.description }}</small></div>
           <div class="mt-4 d-flex align-items-center justify-content-between">
-            <div v-if="event.isCanceled" class="px-5 bg-tw-yellow fw-bold text-dark">Canceled</div>
-            <div v-else-if="event.capacity == eventTickets.length" class="px-5 fw-bold text-dark bg-tw-yellow">Sold Out</div>
-            <div v-else class="text-end"><span class="text-tw-light-blue">{{ event.capacity - eventTickets.length }}</span> ticket{{ event.capacity - eventTickets.length != 1 ? 's' : '' }} available</div>
+            <div v-if="event.isCanceled" class="px-3 bg-tw-yellow fw-bold text-dark">Canceled</div>
+            <div v-else-if="event.capacity == eventTickets.length" class="px-3 fw-bold text-dark bg-tw-yellow">Sold Out</div>
+            <div v-else class="text-end me-2"><span class="text-tw-light-blue">{{ event.capacity - eventTickets.length }}</span> ticket{{ event.capacity - eventTickets.length != 1 ? 's' : '' }} available</div>
             <div>
               <button v-if="showButtons.attend" class="btn btn-sm btn-yellow" @click="attend()">
                   Attend
               </button>
-              <button v-if="showButtons.cancel" class="ms-2 btn btn-sm btn-red" @click="cancel()">
+              <button v-if="showButtons.cancel" class="btn btn-sm btn-red" @click="cancel()">
                   Cancel
               </button>
             </div>
@@ -54,10 +54,12 @@
     <div class="row px-1 mt-1">
       <div class="col-2"></div>
       <div class="col-8 bg-tw-secondary">
-        <div class="my-1 text-end text-tw-green"><small>Join the conversation</small></div>
-        <textarea v-model="commentData.body" class="text-box" name="body" rows="4" placeholder="share your thoughts..."></textarea>
-        <div class="d-flex justify-content-end">
-          <button class="my-1 btn btn-sm btn-green" @click="createComment()">post comment</button>
+        <div v-if="account.id">
+          <div class="my-1 text-end text-tw-green"><small>Join the conversation</small></div>
+          <textarea v-model="commentData.body" class="text-box" name="body" rows="4" placeholder="share your thoughts..."></textarea>
+          <div class="d-flex justify-content-end">
+            <button class="my-1 btn btn-sm btn-green" @click="createComment()">post comment</button>
+          </div>
         </div>
 
         <div class="row mt-2">
@@ -68,7 +70,7 @@
               <div class=""><small>{{ comment.body }}</small></div>
             </div>
             <div v-if="comment.creatorId == account.id">
-              <button class="ms-2 btn btn-sm btn-red" @click="deleteComment(comment.id)"><i class="mdi mdi-trash-can-outline fs-2"></i></button>
+              <button class="btn btn-sm btn-red" @click="deleteComment(comment.id)"><i class="mdi mdi-trash-can-outline fs-2"></i></button>
             </div>
           </div>
         </div>
