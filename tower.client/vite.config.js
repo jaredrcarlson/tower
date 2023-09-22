@@ -5,10 +5,14 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: 'docs',
+    outDir: '../tower/client',
     sourcemap: false
   },
   server: {
-    port: 8080
-  }
+    host: true,
+    port: 8083,
+    strictPort: true,
+    hmr: false
+  },
+  base: '/tower/'
 })

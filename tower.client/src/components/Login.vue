@@ -60,6 +60,7 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import { servePath } from '../env.js'
 export default {
   setup() {
     return {
@@ -69,7 +70,7 @@ export default {
         AuthService.loginWithPopup()
       },
       async logout() {
-        AuthService.logout({ returnTo: window.location.origin })
+        AuthService.logout({ returnTo: window.location.origin + servePath })
       }
     }
   }
