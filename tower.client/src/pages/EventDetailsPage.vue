@@ -14,8 +14,9 @@
             <div class=""><small>{{ event.location }}</small></div>
             <div class=""><small>{{ event.time }}</small></div>
           </div>
-          <div class="mt-3"><small>{{ event.description }}</small></div>
-          <div class="mt-4 d-flex align-items-center justify-content-between">
+          <div class="text-tw-light-blue"><small>{{ event.type }} event</small></div>
+          <div class="mt-2"><small>{{ event.description }}</small></div>
+          <div class="mt-3 d-flex align-items-center justify-content-between">
             <div v-if="event.isCanceled" class="px-3 bg-tw-yellow fw-bold text-dark">Canceled</div>
             <div v-else-if="event.capacity == eventTickets.length" class="px-3 fw-bold text-dark bg-tw-yellow">Sold Out</div>
             <div v-else class="text-end me-2"><span class="text-tw-light-blue">{{ event.capacity - eventTickets.length }}</span> ticket{{ event.capacity - eventTickets.length != 1 ? 's' : '' }} available</div>
@@ -155,7 +156,7 @@ export default {
     function updateAttendButton() {
       const event = AppState.activeEvent
       const haveTicket = AppState.myTickets.find(ticket => ticket.eventId == event.id)
-      showButtons.value.attend = event.isCanceled || !event.capacity || haveTicket ? false : true
+      showButtons.value.attend = event.isCanceled || event.capacity == event.ticketCount || haveTicket ? false : true
     }
 
     function updateCancelButton() {
