@@ -5,7 +5,7 @@
     <img src="images/tower_logo.png" alt="Logo">
   </a>
 
-  <br>
+  <br /><br />
   <p align="left">
     Tower makes event planning easy, offering a simple platform to create and manage a variety of events. From logistics to ticketing and fostering discussions, Tower provides a practical solution for seamless event coordination.
   </p>
@@ -22,7 +22,7 @@
 <!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url] -->
-[![MIT License][license-shield]][license-url]
+<!-- [![MIT License][license-shield]][license-url] -->
 
 [![Product Name Screen Shot][product-screenshot]](https://www.jaredcarlson.dev/tower)
 
