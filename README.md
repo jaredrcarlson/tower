@@ -1,10 +1,10 @@
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://github.com/jaredrcarlson/tower" target="_blank">
     <img src="images/tower_logo.png" alt="Logo">
   </a>
 
+  <br />
   <br />
   <p align="left">
     Tower makes event planning easy, offering a simple platform to create and manage a variety of events. From logistics to ticketing and fostering discussions, Tower provides a practical solution for seamless event coordination.
