@@ -30,7 +30,8 @@
 
 ## Stack 
 
-[![Vue][Vue.js]][Vue-url] [![HTML5][HTML5]][HTML5-url] [![CSS3][CSS3]][CSS3-url] [![Bootstrap][Bootstrap]][Bootstrap-url] [![JavaScript][JavaScript]][JavaScript-url] [![Express][Express]][Express-url] [![Node.js][Node.js]][Node.js-url] [![MongoDB][MongoDB]][MongoDB-url] [![Mongoose][Mongoose]][Mongoose-url]
+[![Vue][Vue.js]][Vue-url] [![JavaScript][JavaScript]][JavaScript-url] [![HTML5][HTML5]][HTML5-url] [![CSS3][CSS3]][CSS3-url] [![Bootstrap][Bootstrap]][Bootstrap-url]  
+[![Express][Express]][Express-url] [![Node.js][Node.js]][Node.js-url] [![Mongoose][Mongoose]][Mongoose-url] [![MongoDB][MongoDB]][MongoDB-url]
 
 
 
