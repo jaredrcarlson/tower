@@ -5,19 +5,20 @@
     <img src="images/tower_logo.png" alt="Logo">
   </a>
 
-  <br /><br />
+  <br />
   <p align="left">
     Tower makes event planning easy, offering a simple platform to create and manage a variety of events. From logistics to ticketing and fostering discussions, Tower provides a practical solution for seamless event coordination.
   </p>
   <p align="center">
     <a href="https://www.jaredcarlson.dev/tower" target="_blank">Live Demo</a>
   </p>
+  
 </div>
-
+<br />
 
 
 <!-- ABOUT THE PROJECT -->
-## About
+<!-- ## About -->
 
 <!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -27,7 +28,7 @@
 [![Product Name Screen Shot][product-screenshot]](https://www.jaredcarlson.dev/tower)
 
 
-### Tech 
+## Stack 
 
 [![Vue][Vue.js]][Vue-url] [![HTML5][HTML5]][HTML5-url] [![CSS3][CSS3]][CSS3-url] [![Bootstrap][Bootstrap]][Bootstrap-url] [![JavaScript][JavaScript]][JavaScript-url] [![Express][Express]][Express-url] [![Node.js][Node.js]][Node.js-url] [![MongoDB][MongoDB]][MongoDB-url] [![Mongoose][Mongoose]][Mongoose-url]
 
